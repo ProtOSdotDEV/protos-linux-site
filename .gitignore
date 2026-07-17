@@ -13,3 +13,4 @@ api/v1/images/*
 !api/v1/images/.gitkeep
 
 .DS_Store
+.idea/
