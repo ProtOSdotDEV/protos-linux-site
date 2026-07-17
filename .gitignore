@@ -1,0 +1,15 @@
+*.key
+*.sec
+*.pem
+*.p12
+secring*
+.protos-keys/
+protos-release.key
+
+*.img
+*.img.zst
+*.squashfs
+api/v1/images/*
+!api/v1/images/.gitkeep
+
+.DS_Store

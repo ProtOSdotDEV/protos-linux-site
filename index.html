@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+    <title>ProtOS API</title>
+    <style>
+        body{background: #0b0b0b;color:#e6e6ea; font:16px/1.6 ui-monospace,monospace;max-width:44rem;margin:0;padding:3rem 1.5rem}
+        a{color:#7cc4ff}
+        code{background:#171717;padding:.15em .4em;border-radius:4px}
+        .k{color:#8b8b96;font-size:.9rem}
+    </style>
+</head>
+<body>
+<h1>ProtOS Distribution Package Management</h1>
+<p>Update Distribution for the ProtOS protogen visor</p>
+<p class="k">Updates are privately signed. This visor verifies every image offline against a key burned in at manufacture. No server is consulted and no account is checked, this prevents bad actors from sniffing out Signing keys so that our customers stay private</p>
+<h2>API</h2>
+<ul>
+    <li><a href="api/v1/manifest.json"><code>/api/v1/manifest.json</code></a> Current release</li>
+    <li><a href="api/v1/manifest.json"><code>/api/v1/manifest.json.minisig</code></a> Signature</li>
+    <li><a href="api/v1/manifest.json"><code>/api/v1/protos-release.pub</code></a> Public key, audit only</li>
+</ul>
+<p class="k">&copy; 2026 FourSynth, All rights reserved.</p>
+</body>
+</html>

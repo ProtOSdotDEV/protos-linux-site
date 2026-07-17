@@ -1,0 +1,1 @@
+© 2026 FourSynth, All rights Reserved.
