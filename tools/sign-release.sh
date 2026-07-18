@@ -26,7 +26,20 @@ if [ -f "$MANIFEST" ]; then
 fi
 
 WORK="$(mktemp -d)"
- trap 'rm -rf "$WORK"' EXIT
+trap 'rm -rf "$WORK"' EXIT
+
+# macOS 28 beta: minisign's interactive passphrase prompt won't accept Enter.
+# Read the passphrase once via a native dialog (no terminal involved) and feed
+# it to both signings over stdin. Not stored, not in shell history, not on disk.
+PROTOS_PASS=$(osascript \
+  -e 'display dialog "minisign key passphrase" default answer "" with hidden answer with title "ProtOS release signing"' \
+  -e 'text returned of result' 2>/dev/null) || die "passphrase entry cancelled"
+[ -n "$PROTOS_PASS" ] || die "empty passphrase"
+
+# Fail fast on a wrong passphrase, BEFORE the slow compress + upload.
+echo probe > "$WORK/.probe"
+printf '%s\n' "$PROTOS_PASS" | minisign -S -s "$SECKEY" -m "$WORK/.probe" >/dev/null 2>&1 \
+  || die "passphrase rejected by the signing key (nothing uploaded)"
 
 ARTIFACT="protos-${VERSION}-arm64.img.zst"
 echo "[*] Compressing -> $ARTIFACT"
@@ -36,7 +49,7 @@ SIZE=$(wc -c < "$WORK/$ARTIFACT" | tr -d ' ')
 SHA=$(shasum -a 256 "$WORK/$ARTIFACT" | awk '{print $1}')
 echo "[*] size=$SIZE sha256=$SHA"
 
-minisign -S -s "$SECKEY" -m "$WORK/$ARTIFACT" \
+printf '%s\n' "$PROTOS_PASS" | minisign -S -s "$SECKEY" -m "$WORK/$ARTIFACT" \
          -t "protos-update v=$VERSION code=$VERSION_CODE sha256=$SHA"
 
 TAG="v$VERSION"
@@ -65,7 +78,7 @@ jq -n \
             image:{url:$url, sig_url:$sig_url, size:$size, sha256:$sha256}}}' \
   > "$MANIFEST"
 
-minisign -S -s "$SECKEY" -m "$MANIFEST" -t "protos-manifest channel=$CHANNEL code=$VERSION_CODE"
+printf '%s\n' "$PROTOS_PASS" | minisign -S -s "$SECKEY" -m "$MANIFEST" -t "protos-manifest channel=$CHANNEL code=$VERSION_CODE"
 
 echo
 echo "[+] Released $VERSION (code $VERSION_CODE)"
