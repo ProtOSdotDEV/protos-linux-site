@@ -59,7 +59,7 @@ jq -n \
   --arg url "$BASE/$ARTIFACT" \
   --arg sig_url "$BASE/$ARTIFACT.minisig" \
   --argjson size "$SIZE" \
-  --arg sha256 \
+  --arg sha256 "$SHA" \
   '{schema:$schema, generated:$generated, expires:$expires, channel:$channel,
     latest:{version:$version, version_code:$version_code, released:$released,
             image:{url:$url, sig_url:$sig_url, size:$size, sha256:$sha256}}}' \
