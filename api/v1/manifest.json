@@ -1,1 +1,17 @@
-null
+{
+  "schema": 1,
+  "generated": "2026-07-18T05:02:24Z",
+  "expires": "2026-08-17T05:02:24Z",
+  "channel": "stable",
+  "latest": {
+    "version": "0.0.1",
+    "version_code": 1,
+    "released": "2026-07-18",
+    "image": {
+      "url": "https://github.com/ProtOSdotDEV/protos-linux-site/releases/download/v0.0.1/protos-0.0.1-arm64.img.zst",
+      "sig_url": "https://github.com/ProtOSdotDEV/protos-linux-site/releases/download/v0.0.1/protos-0.0.1-arm64.img.zst.minisig",
+      "size": 940418073,
+      "sha256": "14ae4c89cda3d15343615c725a716f0ab224bd91289e177fe43f339cebe52bf5"
+    }
+  }
+}
